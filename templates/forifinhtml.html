@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>for&if</title>
+</head>
+<body>
+
+{% for i in range(10)%}
+    {% if i%2 == 1 %}
+        This text will be printed for index: {{i}}
+        <br>
+    {% endif %}
+{% endfor %}
+
+
+<hr>
+
+{% for i in content %}
+<p>{{i}}</p>
+{% endfor %}
+
+</body>
+</html>
