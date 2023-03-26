@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session
+import sqlsys as dbs
 # from datetime import timedelta
 # for extending the number of days a user stays logged in
 
@@ -49,11 +50,23 @@ def login():
         # session.permanent = True
         # <--- makes the permanent session
         # this is the line that ensures that the time limit mentioned above is followed
-        user = request.form["nm"]
+        user = request.form["unm"]
+        password=request.form["pwd"]
+        uemail = request.form["email"]
+        admin = request.form["admin"]
         session['user']=user
         # session is a dictionary that stores the details of the current user inlcuding the email and the username etc etc
-        return redirect(url_for("user"))
-        # once you actually login correctly this is what renders after the POST action.
+        if dbs.login(user, password)== True:
+            return redirect(url_for("user"))
+            # once you actually login correctly this is what renders after the POST action.
+        else:
+            anss= dbs.register(user, password, uemail, admin)
+            if anss== True:
+                return redirect(url_for("user"))
+
+            else:
+                return f"<h1>Invalid username, email or password</h1><br><br> The username/emailid might alredy be taken or you have entered an incorrect password"
+
     else:
         if "user" in session:
             return redirect(url_for("user"))
